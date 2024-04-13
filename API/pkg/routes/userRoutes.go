@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRoutes(engine *gin.RouterGroup, userHandler *handler.UserHandler, otpHandler *handler.OtpHandler, inventoryHandler *handler.InventoryHandler, cartHandler *handler.CartHandler, orderHandler *handler.OrderHandler, paymentHandler *handler.PaymentHandler, walletHandler *handler.WalletHandler) {
+func UserRoutes(engine *gin.RouterGroup, userHandler *handler.UserHandler, otpHandler *handler.OtpHandler, inventoryHandler *handler.InventoryHandler, cartHandler *handler.CartHandler, orderHandler *handler.OrderHandler, paymentHandler *handler.PaymentHandler, walletHandler *handler.WalletHandler, wishlistHandler *handler.WishlistHandler) {
 
 	engine.POST("/signup", userHandler.UserSignUp)
 	engine.POST("/login", userHandler.LoginHandler)
@@ -47,7 +47,7 @@ func UserRoutes(engine *gin.RouterGroup, userHandler *handler.UserHandler, otpHa
 	home := engine.Group("/home")
 	{
 		home.POST("/addcart", cartHandler.AddToCart)
-		
+
 	}
 	cart := engine.Group("/cart")
 	{
@@ -70,6 +70,12 @@ func UserRoutes(engine *gin.RouterGroup, userHandler *handler.UserHandler, otpHa
 	{
 		product.GET("/filter", inventoryHandler.FilterCategory)
 		product.POST("search", inventoryHandler.SearchProducts)
+	}
+	wishlist := engine.Group("/wishlist")
+	{
+		wishlist.POST("", wishlistHandler.AddToWishlist)
+		wishlist.GET("", wishlistHandler.GetWishlist)
+		wishlist.DELETE("", wishlistHandler.RemoveFromWishlist)
 	}
 
 }

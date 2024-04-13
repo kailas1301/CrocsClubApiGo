@@ -24,7 +24,8 @@ func NewServerHTTP(userHandler *handler.UserHandler,
 	paymentHandler *handler.PaymentHandler,
 	walletHandler *handler.WalletHandler,
 	couponHandler *handler.CouponHandler,
-	offerHandler *handler.OfferHandler) *ServerHTTP {
+	offerHandler *handler.OfferHandler,
+	wishlistHandler *handler.WishlistHandler) *ServerHTTP {
 	engine := gin.New()
 
 	engine.Use(gin.Logger())
@@ -34,7 +35,7 @@ func NewServerHTTP(userHandler *handler.UserHandler,
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	engine.GET("/validate-token", adminHandler.ValidateRefreshTokenAndCreateNewAccess)
 
-	routes.UserRoutes(engine.Group("/user"), userHandler, otpHandler, inventoryHandler, cartHandler, orderHandler, paymentHandler, walletHandler)
+	routes.UserRoutes(engine.Group("/user"), userHandler, otpHandler, inventoryHandler, cartHandler, orderHandler, paymentHandler, walletHandler, wishlistHandler)
 	routes.AdminRoutes(engine.Group("/admin"), adminHandler, categoryHandler, inventoryHandler, orderHandler, couponHandler, offerHandler)
 
 	return &ServerHTTP{engine: engine}
