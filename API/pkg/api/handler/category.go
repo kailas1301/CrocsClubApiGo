@@ -6,6 +6,7 @@ import (
 	"CrocsClub/pkg/utils/models"
 	"CrocsClub/pkg/utils/response"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -117,8 +118,21 @@ func (Cat *CategoryHandler) DeleteCategory(c *gin.Context) {
 // @Failure 400 {object} response.Response "Fields provided are in the wrong format or Could not retrieve categories"
 // @Router /admin/category [get]
 func (Cat *CategoryHandler) GetCategory(c *gin.Context) {
+	pageNo := c.DefaultQuery("page", "1")
+	pageList := c.DefaultQuery("per_page", "5")
+	pageNoInt, err := strconv.Atoi(pageNo)
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "category cannot be displayed", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
+	pageListInt, err := strconv.Atoi(pageList)
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "category cannot be displayed", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+	}
 
-	categories, err := Cat.CategoryUseCase.GetCategory()
+	categories, err := Cat.CategoryUseCase.GetCategory(pageNoInt, pageListInt)
 	if err != nil {
 		errorRes := response.ClientResponse(http.StatusBadRequest, "fields provided are in wrong format", nil, err.Error())
 		c.JSON(http.StatusBadRequest, errorRes)

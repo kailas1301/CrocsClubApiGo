@@ -21,7 +21,7 @@ func NewCategoryUseCase(repo interfaces.CategoryRepository, h helper_interface.H
 }
 
 func (Cat *categoryUseCase) AddCategory(category domain.Category) (domain.Category, error) {
-	if category.Category == ""{
+	if category.Category == "" {
 		return domain.Category{}, errors.New("category should not be empty")
 	}
 
@@ -37,7 +37,7 @@ func (Cat *categoryUseCase) AddCategory(category domain.Category) (domain.Catego
 
 func (Cat *categoryUseCase) UpdateCategory(current string, new string) (domain.Category, error) {
 	if current == "" || new == "" {
-		return domain.Category{},errors.New("values should not be empty")
+		return domain.Category{}, errors.New("values should not be empty")
 	}
 
 	result, err := Cat.repository.CheckCategory(current)
@@ -67,7 +67,7 @@ func (Cat *categoryUseCase) DeleteCategory(categoryID string) error {
 
 }
 
-func (Cat *categoryUseCase) GetCategory() ([]domain.Category, error) {
+func (Cat *categoryUseCase) GetCategory(int, int) ([]domain.Category, error) {
 
 	categories, err := Cat.repository.GetCategory()
 	if err != nil {

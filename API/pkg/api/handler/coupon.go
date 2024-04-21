@@ -5,6 +5,7 @@ import (
 	"CrocsClub/pkg/usecase/interfaces"
 	"CrocsClub/pkg/utils/response"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -56,7 +57,21 @@ func (cu *CouponHandler) AddCoupon(c *gin.Context) {
 // @Failure 400 {object} response.Response "Error in getting coupons"
 // @Router /admin/coupon [get]
 func (cu *CouponHandler) GetCoupon(c *gin.Context) {
-	couponRes, err := cu.couponUseCase.GetCoupon()
+
+	pageNo := c.DefaultQuery("page", "1")
+	pageList := c.DefaultQuery("per_page", "5")
+	pageNoInt, err := strconv.Atoi(pageNo)
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "coupon cannot be displayed", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+		return
+	}
+	pageListInt, err := strconv.Atoi(pageList)
+	if err != nil {
+		errRes := response.ClientResponse(http.StatusBadRequest, "coupon cannot be displayed", nil, err.Error())
+		c.JSON(http.StatusBadRequest, errRes)
+	}
+	couponRes, err := cu.couponUseCase.GetCoupon(pageNoInt, pageListInt)
 	if err != nil {
 		errRes := response.ClientResponse(http.StatusBadRequest, "error in getting coupon", nil, err.Error())
 		c.JSON(http.StatusBadRequest, errRes)

@@ -40,7 +40,7 @@ func (cu *couponUseCase) AddCoupon(coupon domain.Coupon) (models.CouponResp, err
 	}
 	return couponResp, nil
 }
-func (cu *couponUseCase) GetCoupon() ([]models.CouponResp, error) {
+func (cu *couponUseCase) GetCoupon(int, int) ([]models.CouponResp, error) {
 	couponResp, err := cu.couponRepo.GetCoupon()
 	if err != nil {
 		return []models.CouponResp{}, err
@@ -72,6 +72,7 @@ func (cu *couponUseCase) EditCoupon(edit domain.Coupon) (models.CouponResp, erro
 
 	return couponResp, nil
 }
+
 // func (cu *couponUseCase) Applycoupon(coupon string, userId int)error{
 // 	ok, err := cu.couponRepo.CouponExist(coupon)
 // 	if err != nil{
@@ -80,5 +81,5 @@ func (cu *couponUseCase) EditCoupon(edit domain.Coupon) (models.CouponResp, erro
 // 	if !ok {
 // 		return errors.New("coupon does not exist")
 // 	}
-	
+
 // }
