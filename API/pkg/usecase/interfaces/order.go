@@ -10,7 +10,7 @@ import (
 type OrderUseCase interface {
 	OrderItemsFromCart(userid, addressid, paymentid, couponId int, useWallet bool) (models.OrderDetailsRep, error)
 	GetOrders(orderId int) (domain.OrderResponse, error)
-	GetAllOrders(userId, page, pageSize int) ([]models.OrderDetails, error)
+	GetAllOrders(userId int) ([]models.OrderDetails, error)
 	CancelOrder(orderId int) error
 	GetAdminOrders(page int) ([]models.CombinedOrderDetails, error)
 	OrdersStatus(orderId string) error

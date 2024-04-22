@@ -106,11 +106,8 @@ func (i *orderRepository) CancelOrder(orderId, userId, cartAmt int, paymentStatu
 
 }
 
-func (i *orderRepository) GetAllOrders(userID, page, pageSize int) ([]models.OrderDetails, error) {
-	if page == 0 {
-		page = 1
-	}
-	offset := (page - 1) * pageSize
+func (i *orderRepository) GetAllOrders(userID int) ([]models.OrderDetails, error) {
+	
 	var order []models.OrderDetails
 
 	query :=
@@ -134,7 +131,7 @@ func (i *orderRepository) GetAllOrders(userID, page, pageSize int) ([]models.Ord
 		?
 	
 	`
-	err := i.DB.Raw(query, userID, offset, pageSize).Scan(&order).Error
+	err := i.DB.Raw(query, userID).Scan(&order).Error
 	if err != nil {
 		return nil, err
 	}

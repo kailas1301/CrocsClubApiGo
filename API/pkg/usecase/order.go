@@ -230,8 +230,8 @@ func (i *orderUseCase) CancelOrder(orderID int) error {
 	return nil
 }
 
-func (i *orderUseCase) GetAllOrders(userId, page, pageSize int) ([]models.OrderDetails, error) {
-	allorder, err := i.orderRepository.GetAllOrders(userId, page, pageSize)
+func (i *orderUseCase) GetAllOrders(userId int) ([]models.OrderDetails, error) {
+	allorder, err := i.orderRepository.GetAllOrders(userId)
 	if err != nil {
 		return []models.OrderDetails{}, err
 	}
